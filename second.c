@@ -1,1 +1,7 @@
-1
+#include <stdio.h>
+
+void test()
+{
+    printf("test\n");
+    printf("\n\n");
+}
