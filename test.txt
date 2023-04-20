@@ -1,2 +1,0 @@
-commit1
-printf("hello world")
