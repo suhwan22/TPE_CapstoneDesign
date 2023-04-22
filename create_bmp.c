@@ -26,6 +26,7 @@ int create_bmp_with_pixel_data(BMP_Image *image, unsigned char *pixel, char *fil
 {
 	FILE *fp_bmp_output;
 
+	printf("create_bmp()\n");
 	if (fopen_s(&fp_bmp_output, file_name, "wb") != 0)
     {
         printf("Error: create_bmp\n");

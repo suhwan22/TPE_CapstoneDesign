@@ -5,6 +5,8 @@ unsigned char *permutation(BMP_InfoHeader infoheader, unsigned char *image, int 
     int h;
     int w;
     int idx;
+    int end_x;
+    int end_y;
     unsigned int    size;
     unsigned char   *pixel;
     
@@ -17,14 +19,27 @@ unsigned char *permutation(BMP_InfoHeader infoheader, unsigned char *image, int 
     w = infoheader.width;
     h = infoheader.height;
     pixel = malloc(sizeof(unsigned char) * size + 1);
+    if (!pixel)
+    {
+        printf("Error: permutation(): malloc failed\n");
+        return (NULL);
+    }
     for (int row = 0; row < h; row += block_size)
     {
 		for (int col = 0; col < w; col += block_size)
         {
             idx = 0;
-            for (int y = row; y < row + block_size; y++)
+            if (row + block_size >= infoheader.height)
+                end_y = infoheader.height;
+            else
+                end_y = row + block_size;
+            for (int y = row; y < end_y; y++)
             {
-                for (int x = col; x < col + block_size; x++)
+                if (col + block_size >= infoheader.width)
+                    end_x = infoheader.width;
+                else
+                    end_x = col + block_size;
+                for (int x = col; x < end_x; x++)
                 {
 			        for (int channel = 2; channel >= 0; channel--)
                     {
