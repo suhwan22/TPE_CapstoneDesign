@@ -17,6 +17,7 @@ unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image)
     size = 3 * infoheader.width * infoheader.height;
     w = infoheader.width;
     h = infoheader.height;
+    printf("substitution w: %d, h: %d, size: %d\n", w, h, size);
     pixel = malloc(sizeof(unsigned char) * size + 1);
     if (!pixel)
     {
@@ -29,9 +30,9 @@ unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image)
         {
 			for (int channel = 2; channel >= 0; channel--)
             {
-                a = image[row * 3 * w + col * 3 + channel]; 
+                a = image[row * 3 * w + col * 3 + channel];
                 b = image[row * 3 * w + (col + 1) * 3 + channel]; 
-                if (a + b > 255)
+                if (a + b > 255 && a + b <= 510 - a)
                 {
                     pixel[row * 3 * w + col * 3 + channel] = 255 - a;
                     pixel[row * 3 * w + (col + 1) * 3 + channel] = 2 * a + b - 255;
