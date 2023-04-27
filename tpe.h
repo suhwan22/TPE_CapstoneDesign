@@ -35,32 +35,33 @@ typedef struct BMP_InfoHeader
     uint32_t colors_important;
 }   BMP_InfoHeader;
 
-typedef struct BMP_Image
+typedef struct BMP_File
 {
     unsigned char   header[54];
     BMP_FileHeader  bmp_fileheader;
     BMP_InfoHeader  bmp_infoheader;
     unsigned char   *pixel_data;
+    unsigned int    bits;
     unsigned int    img_size;
-}   BMP_Image;
+}   BMP_File;
 
 /* init_bmp_header.c */
 void    init_header(unsigned char *buffer, BMP_FileHeader *fileheader, BMP_InfoHeader *infoheader);
 
 /* save_bmp_file.c */
-int save_bmp_file(BMP_Image *img, char *file_name);
+int save_bmp_file(BMP_File *img, char *file_name);
 
 /* create_bmp.c */
-int create_bmp(BMP_Image *image, char *file_name);
-int create_bmp_with_pixel_data(BMP_Image *image, unsigned char *pixel, char *file_name);
+int create_bmp(BMP_File *image, char *file_name);
+int create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, char *file_name);
 
 /* substitution.c */
-unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image);
+unsigned char *substitution(BMP_File bmp_file, unsigned char *image);
 
 /* create_random_n_arr.c */
 int *create_random_n_arr(int size);
 
 /* permutation.c */
-unsigned char *permutation(BMP_InfoHeader infoheader, unsigned char *image, int *random_arr, int block_size);
+unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_arr, int block_size);
 
 #endif

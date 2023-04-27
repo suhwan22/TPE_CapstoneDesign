@@ -1,10 +1,9 @@
 #include "tpe.h"
 
-unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image)
+unsigned char *substitution(BMP_File bmp_file, unsigned char *image)
 {
     int h;
     int w;
-    unsigned int    size;
     unsigned char   *pixel;
     unsigned char   a;
     unsigned char   b;
@@ -14,11 +13,10 @@ unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image)
         printf("Error: substitution(): image is NULL\n");
         return (NULL);
     }
-    size = 3 * infoheader.width * infoheader.height;
-    w = infoheader.width;
-    h = infoheader.height;
-    printf("substitution w: %d, h: %d, size: %d\n", w, h, size);
-    pixel = malloc(sizeof(unsigned char) * size + 1);
+    w = bmp_file.bmp_infoheader.width;
+    h = bmp_file.bmp_infoheader.height;
+    printf("substitution w: %d, h: %d, size: %d\n", w, h, bmp_file.img_size);
+    pixel = malloc(sizeof(unsigned char) * bmp_file.img_size + 1);
     if (!pixel)
     {
         printf("Error: substitution(): malloc error\n");
@@ -28,23 +26,38 @@ unsigned char *substitution(BMP_InfoHeader infoheader, unsigned char *image)
     {
 		for (int col = 0; col < w; col += 2)
         {
-			for (int channel = 2; channel >= 0; channel--)
+			for (int channel = bmp_file.bits - 1; channel >= 0; channel--)
             {
-                a = image[row * 3 * w + col * 3 + channel];
-                b = image[row * 3 * w + (col + 1) * 3 + channel]; 
-                if (a + b > 255 && a + b <= 510 - a)
-                {
-                    pixel[row * 3 * w + col * 3 + channel] = 255 - a;
-                    pixel[row * 3 * w + (col + 1) * 3 + channel] = 2 * a + b - 255;
-                }
+                if (col == w - 1) //홀수일 경우 마지막 pixel 처리
+                    pixel[row * bmp_file.bits * w + col * bmp_file.bits + channel] = image[row * bmp_file.bits * w + col * bmp_file.bits + channel];
                 else
                 {
-                    pixel[row * 3 * w + col * 3 + channel] = a;
-                    pixel[row * 3 * w + (col + 1) * 3 + channel] = b;
+                    a = image[row * bmp_file.bits * w + col * bmp_file.bits + channel];
+                    b = image[row * bmp_file.bits * w + (col + 1) * bmp_file.bits + channel];
+                    if (a + b > 255 && a + b <= 510 - a)
+                    {
+                        pixel[row * bmp_file.bits * w + col * bmp_file.bits + channel] = 255 - a;
+                        pixel[row * bmp_file.bits * w + (col + 1) * bmp_file.bits + channel] = 2 * a + b - 255;
+                    }
+                    else
+                    {
+                        pixel[row * bmp_file.bits * w + col * bmp_file.bits + channel] = a;
+                        pixel[row * bmp_file.bits * w + (col + 1) * bmp_file.bits + channel] = b;
+                    }
                 }
 			}
 		}
 	}
-    pixel[size] = 0;
+    // for (int row = 0; row < h; row++)
+    // {
+    //     for (int col = 0; col < w; col++)
+    //     {
+    //         for (int channel = bmp_file.bits - 1; channel >= 0; channel--)
+    //         {
+    //             pixel[row * bmp_file.bits * w + col * bmp_file.bits + channel] = image[row * bmp_file.bits * w + col * bmp_file.bits + channel];
+    //         }
+    //     }
+    // }
+    pixel[bmp_file.img_size] = 0;
     return (pixel);
 }
