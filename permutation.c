@@ -7,7 +7,6 @@ unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_
     int idx;
     int end_x;
     int end_y;
-    unsigned int    size;
     unsigned char   *pixel;
     
     if (!image)
@@ -18,7 +17,7 @@ unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_
     w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
     printf("permutation w: %d, h: %d, size: %d\n", w, h, bmp_file.img_size);
-    pixel = malloc(sizeof(unsigned char) * size + 1);
+    pixel = malloc(sizeof(unsigned char) * bmp_file.bits * block_size * block_size);
     if (!pixel)
     {
         printf("Error: permutation(): malloc failed\n");
@@ -34,29 +33,42 @@ unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_
     {
 		for (int col = 0; col < w; col += block_size)
         {
-            idx = 0;
-            if (row + block_size >= bmp_file.bmp_infoheader.height)
-                end_y = bmp_file.bmp_infoheader.height;
-            else
-                end_y = row + block_size;
-            for (int y = row; y < end_y; y++)
+            if (row + block_size > h || col + block_size > w)
             {
-                if (col + block_size >= bmp_file.bmp_infoheader.width)
-                    end_x = bmp_file.bmp_infoheader.width;
-                else
-                    end_x = col + block_size;
-                for (int x = col; x < end_x; x++)
+                //printf("edge case: row, col(%d, %d)\n", row, col);
+                continue;
+            }
+            else
+            {
+                idx = 0;
+                for (int y = row; y < row + block_size; y++)
                 {
-			        for (int channel = 2; channel >= 0; channel--)
+                    for (int x = col; x < col + block_size; x++)
                     {
-                        pixel[y * 3 * w + x * 3 + channel] = image[(row + random_arr[idx] / block_size) * 3 * w + (col + random_arr[idx] % block_size) * 3 + channel];
+                        //printf("current row: %d, col: %d, idx: %d\n", row, col, idx);
+                        for (int channel = bmp_file.bits - 1; channel >= 0; channel--)
+                        {
+                            pixel[idx * bmp_file.bits + channel] = image[(row + random_arr[idx] / block_size) * bmp_file.bits * w + (col + random_arr[idx] % block_size) * bmp_file.bits + channel];
+                        }
+                        idx++;
                     }
-                    idx++;
+                }
+                idx = 0;
+                for (int y = row; y < row + block_size; y++)
+                {
+                    for (int x = col; x < col + block_size; x++)
+                    {
+                        for (int channel = bmp_file.bits - 1; channel >= 0; channel--)
+                        {
+                            image[y * bmp_file.bits * w + x * bmp_file.bits + channel] = pixel[idx * bmp_file.bits + channel];
+                        }
+                        idx++;
+                    }
                 }
             }
 		}
 	}
-    printf("here?\n");
-    pixel[size] = 0;
-    return (pixel);
+    //printf("here?\n");
+    free(pixel);
+    return (image);
 }
