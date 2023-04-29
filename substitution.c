@@ -10,16 +10,16 @@ unsigned char *substitution(BMP_File bmp_file, unsigned char *image)
     
     if (!image)
     {
-        printf("Error: substitution(): image is NULL\n");
+        printf("substitution(): image is NULL\n");
         return (NULL);
     }
     w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
-    printf("substitution w: %d, h: %d, size: %d\n", w, h, bmp_file.img_size);
+    //printf("substitution w: %d, h: %d, size: %d\n", w, h, bmp_file.img_size);
     pixel = malloc(sizeof(unsigned char) * bmp_file.img_size + 1);
     if (!pixel)
     {
-        printf("Error: substitution(): malloc error\n");
+        printf("substitution(): malloc error\n");
         return (NULL);
     }
     for (int row = 0; row < h; row++)
@@ -48,16 +48,6 @@ unsigned char *substitution(BMP_File bmp_file, unsigned char *image)
 			}
 		}
 	}
-    // for (int row = 0; row < h; row++)
-    // {
-    //     for (int col = 0; col < w; col++)
-    //     {
-    //         for (int channel = bmp_file.bits - 1; channel >= 0; channel--)
-    //         {
-    //             pixel[row * bmp_file.bits * w + col * bmp_file.bits + channel] = image[row * bmp_file.bits * w + col * bmp_file.bits + channel];
-    //         }
-    //     }
-    // }
     pixel[bmp_file.img_size] = 0;
     return (pixel);
 }

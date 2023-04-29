@@ -56,12 +56,15 @@ int create_bmp(BMP_File *image, char *file_name);
 int create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, char *file_name);
 
 /* substitution.c */
-unsigned char *substitution(BMP_File bmp_file, unsigned char *image);
+unsigned char   *substitution(BMP_File bmp_file, unsigned char *image);
 
 /* create_random_n_arr.c */
 int *create_random_n_arr(int size);
 
 /* permutation.c */
-unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_arr, int block_size);
+unsigned char   *permutation(BMP_File bmp_file, unsigned char *image, int *random_arr, int block_size);
+
+/* round.c */
+unsigned char   *round_n(BMP_File *bmp_file, int *random_arr, int block_size, int n);
 
 #endif
