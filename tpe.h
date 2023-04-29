@@ -65,6 +65,12 @@ int *create_random_n_arr(int size);
 unsigned char   *permutation(BMP_File bmp_file, unsigned char *image, int *random_arr, int block_size);
 
 /* round.c */
-unsigned char   *round_n(BMP_File *bmp_file, int *random_arr, int block_size, int n);
+unsigned char   *round_n(BMP_File *bmp_file, unsigned char *encry_img, int *random_arr, int block_size, int n);
+
+/* inverse_permutation.c */
+unsigned char   *inverse_permutation(BMP_File bmp_file, unsigned char *image, int *random_arr, int block_size);
+
+/* inverse_round.c */
+unsigned char   *inverse_round_n(BMP_File *bmp_file, unsigned char *encry_img, int *random_arr, int block_size, int n);
 
 #endif

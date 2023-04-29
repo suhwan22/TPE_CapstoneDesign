@@ -15,7 +15,6 @@ unsigned char *substitution(BMP_File bmp_file, unsigned char *image)
     }
     w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
-    //printf("substitution w: %d, h: %d, size: %d\n", w, h, bmp_file.img_size);
     pixel = malloc(sizeof(unsigned char) * bmp_file.img_size + 1);
     if (!pixel)
     {
