@@ -1,9 +1,9 @@
 #ifndef TPE_H
 # define TPE_H
 
-# define uint16_t unsigned short
-# define uint32_t unsigned int
-# define int32_t int
+//# define uint16_t unsigned short
+//# define uint32_t unsigned int
+//# define int32_t int
 
 # include <stdio.h>
 # include <stdlib.h>

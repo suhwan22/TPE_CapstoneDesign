@@ -13,14 +13,17 @@ unsigned char *substitution(BMP_File bmp_file, unsigned char *image)
         printf("substitution(): image is NULL\n");
         return (NULL);
     }
+
     w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
+
     pixel = malloc(sizeof(unsigned char) * bmp_file.img_size + 1);
     if (!pixel)
     {
         printf("substitution(): malloc error\n");
         return (NULL);
     }
+
     for (int row = 0; row < h; row++)
     {
 		for (int col = 0; col < w; col += 2)

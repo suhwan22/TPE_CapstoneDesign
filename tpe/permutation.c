@@ -14,14 +14,17 @@ unsigned char *permutation(BMP_File bmp_file, unsigned char *image, int *random_
         printf("permutation(): image is NULL\n");
         return (NULL);
     }
-    w = bmp_file.bmp_infoheader.height;
+
+    w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
+
     pixel = malloc(sizeof(unsigned char) * bmp_file.bits * block_size * block_size);
     if (!pixel)
     {
         printf("permutation(): malloc failed\n");
         return (NULL);
     }
+
     for (int row = 0; row < h; row += block_size)
     {
 		for (int col = 0; col < w; col += block_size)
