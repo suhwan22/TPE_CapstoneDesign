@@ -9,9 +9,10 @@ int main(int argc, char **argv)
 	//	printf("Error: need three args\n");
 	// 	return (-1);
 	//}
-	if (!save_bmp_file(&origin_image, ".\\lenna_original.bmp"))
+	if (!save_bmp_file(&origin_image, "./image/food.bmp"))
 		return (-1);
     printf("width: %d, height: %d\n", origin_image.bmp_infoheader.width, origin_image.bmp_infoheader.height);
+	printf("pixels: %d\n", origin_image.bits);
 
 	unsigned char	*tpe_image;
 	int				*random_arr;
@@ -22,12 +23,12 @@ int main(int argc, char **argv)
 	random_arr = create_random_n_arr(block_size * block_size);
 	tpe_image = origin_image.pixel_data;
 
-	tpe_image = substitution(origin_image, tpe_image);
-	tpe_image = permutation(origin_image, tpe_image, random_arr, 16);
-	create_bmp_with_pixel_data(&origin_image, tpe_image, ".\\suhwna.bmp");
-	printf("\ntime : %d\n", clock() - start);
-	// tpe_image = round_n(&origin_image, tpe_image, random_arr, block_size, 10);
-	// tpe_image = inverse_round_n(&origin_image, tpe_image, random_arr, block_size, 5);
+//	tpe_image = substitution(origin_image, tpe_image);
+//	tpe_image = permutation(origin_image, tpe_image, random_arr, 16);
+	//create_bmp(&origin_image, "./tpe.bmp");
+	tpe_image = round_n(&origin_image, tpe_image, random_arr, block_size, 10);
+	create_bmp_with_pixel_data(&origin_image, tpe_image, "./tpe_food.bmp");
+	tpe_image = inverse_round_n(&origin_image, tpe_image, random_arr, block_size, 10);
 	// if (!create_bmp_with_pixel_data(&origin_image, tpe_image, ".\\test_image_100_50.bmp"))
 	// 	return (-1);
 	// tpe_image = inverse_round_n(&origin_image, tpe_image, random_arr, block_size, 5);
@@ -35,7 +36,8 @@ int main(int argc, char **argv)
 	// 	return (-1);
 	// if (!create_bmp_with_pixel_data(&origin_image, tpe_image, ".\\test_image_100_100.bmp"))
 	// 	return (-1);
-	//create_bmp_with_pixel_data(&origin_image, tpe_image, argv[2]);
+	create_bmp_with_pixel_data(&origin_image, tpe_image, "./recover_food.bmp");
+	printf("\ntime : %d\n", clock() - start);
 	free(tpe_image);
     return 0;
 }

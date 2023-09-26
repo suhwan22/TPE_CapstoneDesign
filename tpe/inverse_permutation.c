@@ -14,7 +14,7 @@ unsigned char *inverse_permutation(BMP_File bmp_file, unsigned char *image, int 
         printf("inverse_permutation(): image is NULL\n");
         return (NULL);
     }
-    w = bmp_file.bmp_infoheader.height;
+    w = bmp_file.bmp_infoheader.width;
     h = bmp_file.bmp_infoheader.height;
     pixel = malloc(sizeof(unsigned char) * bmp_file.bits * block_size * block_size);
     if (!pixel)
