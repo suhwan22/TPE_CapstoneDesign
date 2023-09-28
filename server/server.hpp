@@ -7,7 +7,7 @@
 # include <cstring>
 # include <vector>
 # include <arpa/inet.h>
-# include <sys/epoll.h>
+# include "bmp.hpp"
 
 # define BUF_SIZE 100
 # define EPOLL_SIZE 50
@@ -15,11 +15,12 @@
 class Server
 {
 	private:
+		BMP_File				_originImage;
 		int						_servSock;
 		int						_port;
 
 	public:
-		Server(int port, std::string pass);
+		Server(int port);
 		~Server();
 
 		//Server& operator=(const Server& obj);
