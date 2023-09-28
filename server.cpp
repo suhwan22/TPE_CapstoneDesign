@@ -1,64 +1,117 @@
-#include <stdio.h>
-#include <winsock2.h>
+#include "server.hpp"
 
-#pragma comment(lib, "ws2_32.lib")
+Server::Server(int port, std::string pass) : _port(port), _passWord(pass) {}
 
-#define PORT 8080
-#define BUFFER_SIZE 1024
+Server::~Server() {}
 
-int main() {
-    WSADATA wsa;
-    SOCKET server_socket, new_socket;
-    struct sockaddr_in server, client;
-    int addrlen = sizeof(client);
-    char buffer[BUFFER_SIZE] = {0};
-    char *hello = "Hello from server";
+void	Server::serverInit()
+{
+	struct sockaddr_in	servAddr;
 
-    // Winsock 초기화
-    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-    {
-        printf("Failed. Error Code : %d", WSAGetLastError());
-        return 1;
-    }
+	_servSock = socket(PF_INET, SOCK_STREAM, 0);
+	memset(&servAddr, 0, sizeof(servAddr));
+	servAddr.sin_family = AF_INET;
+	servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	servAddr.sin_port = htons(_port);
 
-    // 소켓 생성
-    if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
-    {
-        printf("Could not create socket : %d", WSAGetLastError());
-    }
+	if (bind(_servSock, (struct sockaddr *) &servAddr, sizeof(servAddr)) == -1)
+	{
+		std::cout << "Error: bind()" << std::endl;
+		exit(1);
+	}
 
-    // 서버의 주소와 포트 설정
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons(PORT);
+	if (listen(_servSock, 5) == -1)
+	{
+		std::cout << "Error: listen()" << std::endl;
+		exit(1);
+	}
+}
 
-    // 소켓에 주소와 포트 바인딩
-    if (bind(server_socket, (struct sockaddr *)&server, sizeof(server)) == SOCKET_ERROR)
-    {
-        printf("Bind failed with error code : %d", WSAGetLastError());
-    }
+void	Server::serverStart()
+{
+	int	epfd, eventCnt;
+	struct epoll_event	*epEvents;
+	struct epoll_event	event;
 
-    // 소켓을 수신 대기 상태로 전환
-    listen(server_socket, 3);
+	epfd = epoll_create(EPOLL_SIZE);
+	//epEvents = malloc(sizeof(struct epoll_event) * EPOLL_SIZE);
+	epEvents = new epoll_event[EPOLL_SIZE];
+	event.events = EPOLLIN;
+	event.data.fd = _servSock;
+	epoll_ctl(epfd, EPOLL_CTL_ADD, _servSock, &event);
 
-    // 클라이언트로부터의 연결 요청 대기
-    if ((new_socket = accept(server_socket, (struct sockaddr *)&client, &addrlen)) == INVALID_SOCKET)
-    {
-        printf("Accept failed with error code : %d", WSAGetLastError());
-    }
+	socklen_t	addrSize;
+	struct sockaddr_in	clntAddr;
+	int	clntSock;
 
-    // 클라이언트로부터 데이터 수신
-    recv(new_socket, buffer, BUFFER_SIZE, 0);
-    printf("Received message: %s\n", buffer);
+	char	buf[BUF_SIZE];
+	int		strlen;
+	int		i;
 
-    // 클라이언트로 데이터 전송
-    send(new_socket, hello, strlen(hello), 0);
-    printf("Hello message sent\n");
+	while (1)
+	{
+		eventCnt = epoll_wait(epfd, epEvents, EPOLL_SIZE, -1);
+		if (eventCnt == -1)
+		{
+			std::cout << "Error: epoll_wait()" << std::endl;
+			break;
+		}
+		for (i = 0; i < eventCnt; i++)
+		{
+			if (epEvents[i].data.fd == _servSock)
+			{
+				/* Add Client!! */
+				addrSize = sizeof(clntAddr);
+				clntSock = accept(_servSock, (struct sockaddr *)&clntAddr, &addrSize);
 
-    // 클라이언트와 연결 종료
-    closesocket(new_socket);
-    closesocket(server_socket);
-    WSACleanup();
+				linger optval;
+     			optval.l_onoff = 1;
+     			optval.l_linger = 1;
+				if (setsockopt(clntSock, SOL_SOCKET, SO_LINGER, &optval, sizeof(optval)) == -1)
+				{
+					std::cout << "Error: serverStart(): setsockopt()" << std::endl;
+			        close(clntSock);
+			        exit(1);
+			    }
 
-    return 0;
+				event.events = EPOLLIN;
+				event.data.fd = clntSock;
+				epoll_ctl(epfd, EPOLL_CTL_ADD, clntSock, &event);
+				
+				std::cout << "connected client: " << clntSock << std::endl;
+			}
+			else
+			{
+				strlen = recv(epEvents[i].data.fd, buf, BUF_SIZE, 0);
+				if (strlen == -1)
+				{
+					std::cout << "Error: serverStart(): recv()" << std::endl;
+				}
+				if (strlen == 0)
+				{
+					epoll_ctl(epfd, EPOLL_CTL_DEL, epEvents[i].data.fd, NULL);
+					std::cout << "closed client: " << epEvents[i].data.fd << std::endl;
+					//shutdown(epEvents[i].data.fd, SHUT_RDWR);
+					close(epEvents[i].data.fd);
+				}
+				else
+				{
+					std::cout << buf << std::endl;
+					send(epEvents[i].data.fd, buf, BUF_SIZE, 0);
+				}
+			}
+		}
+	}
+	close(_servSock);
+	close(epfd);
+}
+
+int	Server::getSock() const
+{
+	return (_servSock);
+}
+
+int	Server::getPort() const
+{
+	return (_port);
 }
