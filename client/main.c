@@ -17,9 +17,10 @@ int main(int argc, char **argv)
 		exit (1);
     printf("width: %d, height: %d\n", origin_image.bmp_infoheader.width, origin_image.bmp_infoheader.height);
 	printf("pixels: %d\n", origin_image.bits);
+	printf("image total size: %u\n", origin_image.img_size);
 
 	servSock = connect_server(argv[1], atoi(argv[2]));
-	send_data_to_server(servSock, origin_image.pixel_data, origin_image.img_size);
+	send_data_to_server(servSock, &origin_image);
 	tpe_image = recv_data_from_server(servSock);
 	if (!tpe_image)
 		exit(1);

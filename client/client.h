@@ -58,7 +58,7 @@ int	connect_server(char *ip, int port);
 unsigned char	*recv_data_from_server(int servSock);
 
 /* send_data_to_server.c */
-void	send_data_to_server(int servSock, unsigned char *pixel_data, unsigned int data_size);
+void	send_data_to_server(int servSock, BMP_File *bmp_data);
 
 /* utils.c */
 unsigned char	*my_strjoin(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2);
