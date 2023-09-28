@@ -1,11 +1,14 @@
 #ifndef BMP_HPP
 # define BMP_HPP
 
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+
 # include <cstdio>
 # include <cstdlib>
 # include <cstring>
 # include <ctime>
-# include <cmath>
+# include <math.h>
 
 typedef struct BMP_FileHeader
 {

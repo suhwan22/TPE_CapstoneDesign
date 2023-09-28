@@ -8,16 +8,16 @@
 #include <sys/socket.h>
 #include "utils.hpp"
 
-#define BUF_SIZE 128
+#define BUF_SIZE 4096
 
-unsigned char	*recv_data_from_client(int clntSock)
+char	*recv_data_from_client(int clntSock)
 {
-	unsigned char	buf[BUF_SIZE] = { 0 };
-	unsigned char	*temp;
+	char	buf[BUF_SIZE] = { 0 };
+	char	*temp;
 	unsigned int	size = 0;
 	int				strlen;
 
-	temp = (unsigned char *)malloc(sizeof(unsigned char) * 2);
+	temp = (char *)malloc(sizeof(char) * 2);
 	if (!temp)
 	{
 		std::cout << "Error: recv_data_from_server(): malloc()" << std::endl;
@@ -40,6 +40,7 @@ unsigned char	*recv_data_from_client(int clntSock)
 		}
 		else
 		{
+			std::cout << "recv size: " << size << std::endl;
 			temp = my_strjoin(temp, buf, size, strlen);
 			size += strlen;
 		}

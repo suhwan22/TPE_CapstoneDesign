@@ -34,7 +34,7 @@ void	Server::serverStart()
 	struct sockaddr_in	clntAddr;
 	int					clntSock;
 
-	unsigned char	*image_data = NULL;
+	char	*bmp_data = NULL;
 
 	addrSize = sizeof(clntAddr);
 	clntSock = accept(_servSock, (struct sockaddr *)&clntAddr, &addrSize);
@@ -52,9 +52,12 @@ void	Server::serverStart()
     }
 
 	std::cout << "connected client: " << clntSock << std::endl;
-	image_data = recv_data_from_client(clntSock);
-	save_bmp_data(&_originImage, image_data);
-	create_bmp_with_pixel_data(&_originImage, image_data, "./tpe_file.bmp");
+	bmp_data = recv_data_from_client(clntSock);
+	std::cout << "recv_data_from_client finished" << std::endl;
+	save_bmp_data(&_originImage, reinterpret_cast<unsigned char *>(bmp_data));
+	std::cout << "save_bmp_data finished" << std::endl;
+	create_bmp_with_pixel_data(&_originImage, _originImage.pixel_data, "./tpe_file.bmp");
+	std::cout << "create_bmp_with_pixel_data finished" << std::endl;
 	close(_servSock);
 	close(clntSock);
 }

@@ -3,12 +3,12 @@
 #include <cstdlib>
 #include <cstdio>
 
-unsigned char	*my_strjoin(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2)
+char	*my_strjoin(char *str1, char *str2, unsigned int len1, unsigned int len2)
 {
-	unsigned char	*temp;
-	int				i;
+	char	*temp;
+	int		i;
 
-	temp = (unsigned char *)malloc(sizeof(unsigned char) * (len1 + len2 + 1));
+	temp = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!temp)
 	{
 		std::cout << "Error: my_strjoin(): malloc()" << std::endl;
