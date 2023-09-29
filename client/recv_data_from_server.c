@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include "client.h"
 
-#define BUF_SIZE 128
+#define BUF_SIZE 10000
 //expected BUF_SIZE == blocksize(b * b)
 
 unsigned char	*recv_data_from_server(int servSock)

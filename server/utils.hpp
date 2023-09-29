@@ -29,7 +29,7 @@ int		create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, char *fil
 char	*recv_data_from_client(int clntSock);
 
 /* send_data_to_client.cpp */
-void	send_data_to_client(int clntSock, unsigned char *pixel_data, unsigned int data_size);
+void	send_data_to_client(int servSock, BMP_File *bmp_data, unsigned char *img);
 
 char	*my_strjoin(char *str1, char *str2, unsigned int len1, unsigned int len2);
 

@@ -24,7 +24,7 @@ class Server
 		~Server();
 
 		//Server& operator=(const Server& obj);
-		void	tpe();
+		unsigned char	*tpe(int block_size, int round);
 
 		void	serverInit();
 		void	serverStart();
