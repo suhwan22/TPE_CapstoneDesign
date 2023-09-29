@@ -35,7 +35,6 @@ char	*recv_data_from_client(int clntSock)
 		if (strlen == 0)
 		{
 			std::cout << "finished recv: " << clntSock << std::endl;
-			shutdown(clntSock, SHUT_WR);
 			break;
 		}
 		else

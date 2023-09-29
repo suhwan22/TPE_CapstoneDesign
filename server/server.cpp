@@ -59,6 +59,7 @@ void	Server::serverStart()
 
 	unsigned char *img;
 	img = tpe(16, 10);
+	send_data_to_client(clntSock, &_originImage, img);
 	create_bmp_with_pixel_data(&_originImage, img, "./tpe_file.bmp");
 	std::cout << "create_bmp_with_pixel_data finished" << std::endl;
 
