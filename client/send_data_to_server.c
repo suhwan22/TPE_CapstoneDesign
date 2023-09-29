@@ -15,7 +15,7 @@ void	send_data_to_server(int servSock, BMP_File *bmp_data)
 	unsigned int	data_size = bmp_data->img_size;
 	unsigned char	buf[BUF_SIZE] = { 0 };
 	unsigned int	i = 0;
-	int				end = 128;
+	int				end = BUF_SIZE;
 
 	send(servSock, bmp_data->header, 54, 0);
 	while (i < data_size)

@@ -34,7 +34,7 @@ unsigned char	*recv_data_from_server(int servSock)
 
 		if (strlen == 0)
 		{
-			printf("finished recv: %d\n", servSock);
+			printf("finished recv size: %d\n", size);
 			close(servSock);
 			break;
 		}
