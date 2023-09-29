@@ -24,12 +24,14 @@ class Server
 		~Server();
 
 		//Server& operator=(const Server& obj);
+		void	tpe();
 
 		void	serverInit();
 		void	serverStart();
 
 		int		getSock() const;
 		int		getPort() const;
+
 };
 
 #endif

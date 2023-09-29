@@ -3,6 +3,18 @@
 
 #include "bmp.hpp"
 
+/* create_random_n_arr.cpp */
+int *create_random_n_arr(int size);
+
+/* permutation.cpp */
+unsigned char *permutation(BMP_File *bmp_file, unsigned char *image, int *random_arr, int block_size);
+
+/* substitution.cpp */
+unsigned char *substitution(BMP_File *bmp_file, unsigned char *image);
+
+/* round.cpp */
+unsigned char   *round_n(BMP_File *bmp_file, unsigned char *encry_img, int *random_arr, int block_size, int n);
+
 /* init_bmp_header.cpp */
 void    init_header(unsigned char *buffer, BMP_FileHeader *fileheader, BMP_InfoHeader *infoheader);
 
