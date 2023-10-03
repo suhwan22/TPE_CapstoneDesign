@@ -23,7 +23,7 @@ void	save_bmp_data(BMP_File *img, unsigned char *bmp_data);
 
 /* create_bmp.cpp */
 int		create_bmp(BMP_File *image, char *file_name);
-int		create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, char *file_name);
+int		create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, const char *file_name);
 
 /* recv_data_from_client.cpp */
 char	*recv_data_from_client(int clntSock);

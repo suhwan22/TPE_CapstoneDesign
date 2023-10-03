@@ -35,7 +35,7 @@ int create_bmp(BMP_File *bmp_file, char *file_name)
     return (1);
 }
 
-int create_bmp_with_pixel_data(BMP_File *bmp_file, unsigned char *pixel, char *file_name)
+int create_bmp_with_pixel_data(BMP_File *bmp_file, unsigned char *pixel, const char *file_name)
 {
 	FILE *fp_bmp_output;
 
