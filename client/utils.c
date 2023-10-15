@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-unsigned char	*my_strjoin(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2)
+unsigned char	*my_join(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2)
 {
 	unsigned char	*temp;
 	int				i;
 
-	temp = malloc(sizeof(unsigned char) * (len1 + len2 + 1));
+	temp = malloc(sizeof(unsigned char) * (len1 + len2));
 	if (!temp)
 	{
 		printf("Error: my_strjoin(): malloc()\n");

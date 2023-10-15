@@ -44,6 +44,6 @@ unsigned char	*recv_data_from_server(int servSock)
 			size += strlen;
 		}
 	}
-	shutdown(servSock, SHUT_WR);
+	shutdown(servSock, SHUT_RD);
 	return (temp);
 }

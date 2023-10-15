@@ -61,6 +61,8 @@ unsigned char	*recv_data_from_server(int servSock);
 void	send_data_to_server(int servSock, BMP_File *bmp_data);
 
 /* utils.c */
-unsigned char	*my_strjoin(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2);
+unsigned char	*my_join(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2);
 
+/* block.c */
+unsigned char *getNthBlock(BMP_File *bmp_file, int n, int block_size, unsigned int *return_size);
 #endif

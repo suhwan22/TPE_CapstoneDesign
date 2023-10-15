@@ -1,4 +1,5 @@
 #include "client.h"
+#include <unistd.h>
 
 int main(int argc, char **argv)
 {
@@ -28,5 +29,6 @@ int main(int argc, char **argv)
 	create_bmp_with_pixel_data(&origin_image, tpe_image, "./tpe_image.bmp");
 	printf("\ntime : %ld\n", clock() - start);
 	free(tpe_image);
+	close(servSock);
     return 0;
 }
