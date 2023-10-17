@@ -28,6 +28,9 @@ int		create_bmp_with_pixel_data(BMP_File *image, unsigned char *pixel, const cha
 /* recv_data_from_client.cpp */
 char	*recv_data_from_client(int clntSock);
 
+/* preprocess.cpp */
+unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image);
+
 /* send_data_to_client.cpp */
 void	send_data_to_client(int clntSock, BMP_File *bmp_data, unsigned char *img);
 

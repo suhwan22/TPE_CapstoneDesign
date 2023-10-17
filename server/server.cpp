@@ -59,7 +59,9 @@ void	Server::serverStart()
 
 	unsigned char *img;
 	std::string tpe_file_name = "./tpe_file.bmp";
-	img = tpe(16, 10);
+
+	//img = tpe(10, 10);
+	img = preprocess(&_originImage, _originImage.pixel_data);
 	send_data_to_client(clntSock, &_originImage, img);
 	create_bmp_with_pixel_data(&_originImage, img, tpe_file_name.c_str());
 	std::cout << "create_bmp_with_pixel_data finished" << std::endl;

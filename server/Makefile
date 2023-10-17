@@ -17,7 +17,8 @@ SRC = main.cpp \
 	  init_bmp_header.cpp \
 	  my_strtrim.cpp \
 	  round.cpp \
-	  server.cpp
+	  server.cpp \
+	  preprocess.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
