@@ -49,18 +49,18 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
                     b = image[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel];
                     if (a + b > 255 && a + b <= 510 - a)
                     {
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = 255 - a;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = 2 * a + b - 255;
+                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = 255 - temp_key[cnt % 100];
+                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = a + b + temp_key[cnt % 100] - 255;
                     }
                     else if (a + b < temp_key[cnt % 100])
                     {
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = b;
+                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = temp_key[cnt % 100] - a;
+                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = temp_key[cnt % 100] - b;
                     }
 					else if (a + b >= temp_key[cnt % 100])
 					{
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = b;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = a;
+                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a + b - temp_key[cnt % 100];
+                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = temp_key[cnt % 100];
 					}
                 }
 			}
