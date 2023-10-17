@@ -64,7 +64,7 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
                     }
                     else
 					{
-						k = temp_key[cnt % 256] % (a + b);
+						k = temp_key[cnt % 256] % ((int)a + (int)b);
 						if (a < k)
 						{
 	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = k - a;
