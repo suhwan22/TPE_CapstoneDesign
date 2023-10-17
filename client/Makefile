@@ -8,9 +8,10 @@ SRC = main.c \
 	  init_bmp_header.c	\
 	  recv_data_from_server.c \
 	  send_data_to_server.c \
+	  send_block_to_server.c \
 	  create_bmp.c \
-	  main.c \
 	  save_bmp_file.c \
+	  block.c \
 	  utils.c
 
 OBJ = $(SRC:.c=.o)

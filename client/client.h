@@ -60,9 +60,14 @@ unsigned char	*recv_data_from_server(int servSock);
 /* send_data_to_server.c */
 void	send_data_to_server(int servSock, BMP_File *bmp_data);
 
+/* send_block_to_server.c */
+void	send_block_to_server(int servSock, BMP_File *bmp_data, int block);
+
 /* utils.c */
 unsigned char	*my_join(unsigned char *str1, unsigned char *str2, unsigned int len1, unsigned int len2);
 
 /* block.c */
 unsigned char *getNthBlock(BMP_File *bmp_file, int n, int block_size, unsigned int *return_size);
+unsigned char	*mixBlock(BMP_File *bmp_data, int block_size);
+
 #endif

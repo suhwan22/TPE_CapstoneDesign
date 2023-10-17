@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 
 	servSock = connect_server(argv[1], atoi(argv[2]));
 	send_data_to_server(servSock, &origin_image);
+	//send_block_to_server(servSock, &origin_image, 10);
 	tpe_image = recv_data_from_server(servSock);
 	if (!tpe_image)
 		exit(1);
