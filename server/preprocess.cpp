@@ -10,7 +10,7 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
     unsigned char   b;
     
 
-	int	temp_key[256];
+	unsigned char	temp_key[256];
 
 	srand(time(NULL));
 	for (int t = 0; t < 256; t++)
@@ -64,8 +64,10 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
                     }
                     else
 					{
-						k = temp_key[cnt % 256] % ((int)a + (int)b);
-						if ((int)a < k)
+						k = temp_key[cnt % 256];
+						while (k < a + b)
+							k -= (a + b);
+						if (a < k)
 						{
 	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = k - a;
 	                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = 2 * a + b - k;
