@@ -54,13 +54,13 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
                     }
                     else if (a + b < temp_key[cnt % 256])
                     {
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = temp_key[cnt % 256] - a;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = temp_key[cnt % 256] - b;
+                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = b;
+                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = a;
                     }
 					else if (a + b >= temp_key[cnt % 256])
 					{
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a + b - temp_key[cnt % 256];
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = temp_key[cnt % 256];
+                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a;
+                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = b;
 					}
                 }
 			}
