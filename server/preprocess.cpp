@@ -47,21 +47,34 @@ unsigned char *preprocess(BMP_File *bmp_file, unsigned char *image)
                 {
                     a = image[row * bmp_file->bits * w + col * bmp_file->bits + channel];
                     b = image[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel];
-                    if (a + b > 255 && a + b <= 510 - a)
-                    {
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = 255 - temp_key[cnt % 256];
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = a + b + temp_key[cnt % 256] - 255;
-                    }
-                    else if (a + b < temp_key[cnt % 256])
-                    {
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = b;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = a;
-                    }
-					else if (a + b >= temp_key[cnt % 256])
+                    if (a + b > temp_key[cnt % 256])
 					{
-                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a;
-                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = b;
-					}
+						if (a < temp_key[cnt % 256] && a + b <= 2 * temp_key[cnt % 256] - a)
+						{
+	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = temp_key[cnt % 256] - a;
+	                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = 2 * a + b - temp_key[cnt % 256];
+						}
+						else
+						{
+	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a;
+	                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = b;
+
+						}
+                    }
+                    else
+					{
+						int	k = temp_key[cnt % 256] % (a + b);
+						if (a < k)
+						{
+	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = k - a;
+	                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = 2 * a + b - k;
+						}
+						else
+						{
+	                        pixel[row * bmp_file->bits * w + col * bmp_file->bits + channel] = a;
+	                        pixel[row * bmp_file->bits * w + (col + 1) * bmp_file->bits + channel] = b;
+						}
+                    }
                 }
 			}
 			cnt++;
