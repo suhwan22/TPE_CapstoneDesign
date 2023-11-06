@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include "client.h"
 
-#define BUF_SIZE 4096
+#define BUF_SIZE 10000
 
 void	send_data_to_server(int servSock, BMP_File *bmp_data)
 {

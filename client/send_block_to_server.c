@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include "client.h"
 
-#define BUF_SIZE 4096
+#define BUF_SIZE 30000
 
 //이미지 크기가 block 으로 딱 안나눠 떨어지는 경우가 지금 안됨
 

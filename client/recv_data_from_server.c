@@ -40,7 +40,7 @@ unsigned char	*recv_data_from_server(int servSock)
 		}
 		else
 		{
-			temp = my_strjoin(temp, buf, size, strlen);
+			temp = my_join(temp, buf, size, strlen);
 			size += strlen;
 		}
 	}

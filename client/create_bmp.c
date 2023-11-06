@@ -41,7 +41,15 @@ int create_bmp_with_pixel_data(BMP_File *bmp_file, unsigned char *pixel, char *f
         return (0);
     }
 	printf("create_bmp()\nw: %d, h: %d, size: %d\n", bmp_file->bmp_infoheader.width, bmp_file->bmp_infoheader.height, bmp_file->img_size);
-	fwrite(bmp_file->header, sizeof(unsigned char), 54, fp_bmp_output);
+	if (bmp_file->bmp_infoheader.size == 40)
+	{
+		fwrite(bmp_file->header, sizeof(unsigned char), 54, fp_bmp_output);
+	}
+	else
+	{
+		fwrite(bmp_file->header, sizeof(unsigned char), 138, fp_bmp_output);
+	}
+
 	unsigned char *tmp_byte_data;
 
 	tmp_byte_data = malloc(sizeof(unsigned char) * bmp_file->img_size);
@@ -56,11 +64,14 @@ int create_bmp_with_pixel_data(BMP_File *bmp_file, unsigned char *pixel, char *f
 		for (int col = 0; col < bmp_file->bmp_infoheader.width; col++)
 			for (int channel = bmp_file->bits - 1; channel >= 0; channel--)
 			{
-				tmp_byte_data[row * bmp_file->bmp_infoheader.width * bmp_file->bits + col * bmp_file->bits + channel] = pixel[row * bmp_file->bmp_infoheader.width * bmp_file->bits + col * bmp_file->bits + channel];
+				tmp_byte_data[row * bmp_file->bmp_infoheader.width * bmp_file->bits + col * bmp_file->bits + channel] \
+					= pixel[row * bmp_file->bmp_infoheader.width * bmp_file->bits + col * bmp_file->bits + channel];
 			}
 		//printf("row: %d\n", row);
 	}
-	fwrite(tmp_byte_data, sizeof(unsigned char), bmp_file->img_size, fp_bmp_output);
+	printf("write return: %ld\n" ,fwrite(tmp_byte_data, sizeof(unsigned char), bmp_file->img_size, fp_bmp_output));
+	fwrite(bmp_file->ICC_data, sizeof(unsigned char), bmp_file->bmp_infoheader5.ICC_profile_size, fp_bmp_output);
+
 	fclose(fp_bmp_output);
 	free(tmp_byte_data);
     return (1);
